@@ -1,4 +1,3 @@
-// adotanteRouter.ts
 import express from "express";
 import AdotanteController from "../controller/AdotanteController";
 import AdotanteRepository from "../repositories/AdotanteRepository";
@@ -10,14 +9,10 @@ const adotanteRepository = new AdotanteRepository(
 );
 const adotanteController = new AdotanteController(adotanteRepository);
 
-router.post("/", (req, res) => adotanteController.criaAdotante(req, res)); // Rota para criar um adotante
-router.get("/", (req, res) => adotanteController.listaAdotantes(req, res));
-router.put("/:id", (req, res) => adotanteController.atualizaAdotante(req, res));
-router.delete("/:id", (req, res) =>
-  adotanteController.deletaAdotante(req, res)
-);
-router.patch("/:id", (req, res) =>
-  adotanteController.atualizaEnderecoAdotante(req, res)
-);
+router.post("/", adotanteController.criaAdotante); // Rota para criar um adotante
+router.get("/", adotanteController.listaAdotantes);
+router.put("/:id", adotanteController.atualizaAdotante);
+router.delete("/:id", adotanteController.deletaAdotante);
+router.patch("/:id", adotanteController.atualizaEnderecoAdotante);
 
 export default router;
