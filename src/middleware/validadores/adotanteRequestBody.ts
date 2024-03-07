@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { TipoRequestBodyAdotante } from "../../types/tiposAdotante";
 import * as yup from "yup";
 
-const esquemaBodyValidator: yup.ObjectSchema<Omit<TipoRequestBodyAdotante, "endereco">> = 
+const esquemaBodyAdotante: yup.ObjectSchema<Omit<TipoRequestBodyAdotante, "endereco">> = 
   yup.object({
     nome: yup.string().defined().required("O nome é obrigatório."),
     celular: yup.string().defined().required(),
@@ -33,7 +33,7 @@ const esquemaBodyValidator: yup.ObjectSchema<Omit<TipoRequestBodyAdotante, "ende
 
 const middlewareValidadorBodyAdotante = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        await esquemaBodyValidator.validate(req.body, {
+        await esquemaBodyAdotante.validate(req.body, {
           abortEarly: false
         })
         return next();
