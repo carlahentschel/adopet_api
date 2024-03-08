@@ -43,7 +43,7 @@ export default class AdotanteController {
     }
 
     async listaAdotantes(
-      req: Request<TipoRequestParamsAdotante, {}, TipoRequestBodyAdotante>, 
+      req: Request<{}, {}, {}>, 
       res: Response<TipoResponseBodyAdotante>
     ) {
         const listaDeAdotantes = await this.repository.listaAdotantes();
@@ -59,7 +59,7 @@ export default class AdotanteController {
     }
 
     async deletaAdotante(
-      req: Request<TipoRequestParamsAdotante, {}, TipoRequestBodyAdotante>, 
+      req: Request<TipoRequestParamsAdotante, {}, {}>, 
       res: Response<TipoResponseBodyAdotante>
     ) {
         const { id } = req.params;
