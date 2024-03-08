@@ -16,7 +16,14 @@ const esquemaBodyAdotante: yup.ObjectSchema<Omit<TipoRequestBodyAdotante, "ender
         /^(\(?[0-9]{2}\)?)? ?([0-9]{4,5})-?([0-9]{4})$/gm, 
         "Celular inválido"
     ),
-    senha: yup.string().defined().required().min(6),
+    senha: yup
+      .string()
+      .defined()
+      .required()
+      .min(6)
+      .matches(
+        /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/gm
+    ),
     foto: yup.string().optional(),
   });
   /* o omit foi usado aqui e não no arquivo 'tipoAdotante.ts'(linha 3), pois para criar o 
