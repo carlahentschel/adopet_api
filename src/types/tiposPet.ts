@@ -4,8 +4,10 @@ type TipoRequestBodyPet = Omit<PetEntity, "id">; //para omitir o id ao criar o p
 
 type TipoRequestParamsPet = { id?: string, pet_id?: string, adotante_id?: string }; //para receber os id's como parâmetros
 
+type TipoPet = Pick<PetEntity, "id"|"nome"|"especie"|"porte"> //para selecionar os campos que queremos de resposta 
+
 type TipoResponseBodyPet = {
-    data?: Pick<PetEntity, "id"|"nome"|"especie"|"porte"> | Pick<PetEntity, "id"|"nome"|"especie"|"porte">[]; //para selecionar os campos que queremos de resposta 
+    data?: TipoPet | TipoPet[]; 
     error?: unknown;
 }; 
 
