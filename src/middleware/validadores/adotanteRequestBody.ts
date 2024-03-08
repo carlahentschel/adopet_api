@@ -7,7 +7,7 @@ yup.setLocale(pt);
 
 const esquemaBodyAdotante: yup.ObjectSchema<Omit<TipoRequestBodyAdotante, "endereco">> = 
   yup.object({
-    nome: yup.string().defined().required(),
+    nome: yup.string().required(),
     celular: yup
       .string()
       .defined()
@@ -18,7 +18,6 @@ const esquemaBodyAdotante: yup.ObjectSchema<Omit<TipoRequestBodyAdotante, "ender
     ),
     senha: yup
       .string()
-      .defined()
       .required()
       .min(6)
       .matches(
@@ -40,9 +39,9 @@ const esquemaBodyAdotante: yup.ObjectSchema<Omit<TipoRequestBodyAdotante, "ender
     }
 
     {
-                                  -> null?
+                                  -> undefined
       "celular": "",              -> string vazia?
-      "senha": ,                  -> undefined?
+      "senha": null,              -> null
       "foto": "foto.jpg",
       "endereco": "Rua A, 12"
     }
