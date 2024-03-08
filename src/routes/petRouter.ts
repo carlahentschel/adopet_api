@@ -15,8 +15,7 @@ const petController = new PetController(petRepository);
 const validateBodyPet: RequestHandler = (req, res, next) => 
   middlewareValidadorBodyPet(req, res, next);
 
-//router.post("/", (req, res)=>petController.criaPet(req, res));
-router.post("/", validateBodyPet, petController.criaPet);
+router.post("/", validateBodyPet, (req, res)=>petController.criaPet(req, res));
 router.get("/", (req, res)=>petController.listaPets(req, res));
 router.put("/", (req, res)=>petController.atualizaPet(req, res));
 router.delete("/", (req, res)=>petController.deletaPet(req, res));
@@ -30,5 +29,5 @@ router.get("/filtro", (req, res) =>
 export default router;
 
 function middlewareValidadorBodyPet(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>, number>, next: NextFunction): void {
-  throw new Error("Function not implemented.");
+  next();
 }
