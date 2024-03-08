@@ -1,10 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import { TipoRequestBodyAdotante } from "../../types/tiposAdotante";
 import * as yup from "yup";
+import {pt} from "yup-locale-pt";
+
+yup.setLocale(pt);
 
 const esquemaBodyAdotante: yup.ObjectSchema<Omit<TipoRequestBodyAdotante, "endereco">> = 
   yup.object({
-    nome: yup.string().defined().required("O nome é obrigatório."),
+    nome: yup.string().defined().required(),
     celular: yup
       .string()
       .defined()
