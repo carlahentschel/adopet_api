@@ -1,13 +1,11 @@
 import { DataSource } from "typeorm";
-import PetEntity from "../entities/PetEntity";
-import EnderecoEntity from "../entities/EnderecoEntity";
-import AbrigoEntity from "../entities/AbrigoEntity";
-import AdotanteEntity from "../entities/AdotanteEntity";
+import path from "path";
+
+const entitiesPath = path.join(__dirname, "../entities");
 
 export const AppDataSource = new DataSource({
-    type: "sqlite",
-    database: "./src/config/database.sqlite",
-    entities: [PetEntity, EnderecoEntity, AbrigoEntity, AdotanteEntity],
-    synchronize: true,
-
-})
+  type: "sqlite",
+  database: "./src/config/database.sqlite",
+  entities: [`${entitiesPath}/*`],
+  synchronize: true,
+});
