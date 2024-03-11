@@ -8,7 +8,6 @@ type TipoPet = Pick<PetEntity, "id"|"nome"|"especie"|"porte"> //para selecionar 
 
 type TipoResponseBodyPet = {
     data?: TipoPet | TipoPet[]; 
-    error?: unknown;
 }; 
 
 export {
