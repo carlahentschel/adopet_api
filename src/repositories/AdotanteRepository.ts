@@ -2,24 +2,27 @@ import { Repository } from "typeorm";
 import AdotanteEntity from "../entities/AdotanteEntity";
 import InterfaceAdotanteRepository from "./interfaces/InterfaceAdotanteRepository";
 import EnderecoEntity from "../entities/EnderecoEntity";
-import { NaoEncontrado } from "../utils/manipulaErros";
+import { NaoEncontrado, RequisicaoRuim } from "../utils/manipulaErros";
 
 export default class AdotanteRepository implements InterfaceAdotanteRepository{
     constructor(private repository: Repository<AdotanteEntity>) {}
   
-    criaAdotante(adotante: AdotanteEntity): void | Promise<void> {
-        this.repository.save(adotante);
+    private async verificaCelularAdotante(celular: string) {
+      return await this.repository.findOne({ where: { celular } });
+    }
+
+    async criaAdotante(adotante: AdotanteEntity): Promise<void> {
+      if(await this.verificaCelularAdotante(adotante.celular)) {
+        throw new RequisicaoRuim("Celular já cadastrado.")
+      }
+      await this.repository.save(adotante);
     }
 
     async listaAdotantes(): Promise<AdotanteEntity[]> {
         return await this.repository.find();
      }
 
-    async atualizaAdotante(
-      id: number,
-      newData: AdotanteEntity
-    ): Promise<{ success: boolean; message?: string }> {
-
+    async atualizaAdotante(id: number, newData: AdotanteEntity) {
       const adotanteToUpdate = await this.repository.findOne({ where: { id } });
     
       if (!adotanteToUpdate) {
@@ -33,9 +36,7 @@ export default class AdotanteRepository implements InterfaceAdotanteRepository{
       return { success: true };    
     }
     
-      async deletaAdotante(
-        id: number
-      ): Promise<{ success: boolean; message?: string }> {
+      async deletaAdotante(id: number) {
         const adotanteToRemove = await this.repository.findOne({ where: { id } });
     
         if (!adotanteToRemove) {
@@ -47,14 +48,11 @@ export default class AdotanteRepository implements InterfaceAdotanteRepository{
         return { success: true };
       }
 
-      async atualizaEnderecoAdotante(idAdotante: number, endereco: EnderecoEntity): Promise<{ success: boolean; message?: string }> {
+      async atualizaEnderecoAdotante(idAdotante: number, endereco: EnderecoEntity) {
         const adotante = await this.repository.findOne({ where: { id: idAdotante} });
 
         if(!adotante) {
-          return {
-            success: false,
-            message: "Adotante não encontrado..",
-          }
+          throw new NaoEncontrado("Adotante não encontrado");
         }
 
         const novoEndereco = new EnderecoEntity(endereco.cidade, endereco.estado);
